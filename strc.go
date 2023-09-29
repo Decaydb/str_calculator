@@ -9,6 +9,8 @@ import (
 
 var oper_type string
 
+//var sym string
+
 func solution(text string) (string, string, string) {
 	var first, sign, second string
 	first, sign, second = edit(text)
@@ -20,9 +22,10 @@ func solution(text string) (string, string, string) {
 		switch {
 		case sign == "+":
 			println(strings.ReplaceAll(first+second, "\"", ""))
-			//println(first + second)
 		case sign == "-":
-			result := strings.ReplaceAll(first, second, "")
+			resultf := strings.ReplaceAll(first, "\"", "")
+			results := strings.ReplaceAll(second, "\"", "")
+			result := strings.ReplaceAll(resultf, results, "")
 			println(result)
 		default:
 			panic("Строки между собой можно только складывать и вычитать, не знаю что с этим делать...")
@@ -30,10 +33,18 @@ func solution(text string) (string, string, string) {
 
 		//Если первым введена не строка то ошибка
 	} else {
-		secondArg, _ := strconv.Atoi(second)
-		for i := 0; i < secondArg; i++ {
-			print(second)
+		if sign == "*" {
+			secondArg, _ := strconv.Atoi(second)
+			for i := 0; i < secondArg; i++ {
+				print(first)
+			}
+		} else if sign == "/" {
+			secnd, _ := strconv.Atoi(second)
+			fl := len(first)
+			result := fl / secnd
+			println(first[0:result])
 		}
+
 	}
 
 	return first, second, sign
@@ -41,13 +52,26 @@ func solution(text string) (string, string, string) {
 
 func edit(text string) (string, string, string) {
 	var first, sign, second string
+	var slice []string
 	text = strings.TrimSpace(text)
 	text = strings.ReplaceAll(text, "\r", "")
 	text = strings.ReplaceAll(text, "\n", "")
-	slice := strings.Split(text, " ")
+	if strings.Contains(text, " + ") {
+		slice = strings.Split(text, " + ")
+		sign = "+"
+	} else if strings.Contains(text, " - ") {
+		slice = strings.Split(text, " - ")
+		sign = "-"
+	} else if strings.Contains(text, " * ") {
+		slice = strings.Split(text, " * ")
+		sign = "*"
+	} else if strings.Contains(text, " / ") {
+		slice = strings.Split(text, " / ")
+		sign = "/"
+	}
 	first = slice[0]
-	sign = slice[1]
-	second = slice[2]
+	//sign = slice[1]
+	second = slice[1]
 	//Проверка на тип данных в первом(что подразумевалось string или int)
 	if strings.Contains(first, "\"") == false {
 		panic("Первым вводится строка в кавычках!!!")
@@ -67,7 +91,7 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		println("Введите две строки и знак между ними.")
+		println("\nВведите две строки и знак между ними.")
 		text, _ := reader.ReadString('\n')
 		solution(text)
 	}
