@@ -9,8 +9,6 @@ import (
 
 var oper_type string
 
-//var sym string
-
 func solution(text string) (string, string, string) {
 	var first, sign, second string
 	first, sign, second = edit(text)
@@ -30,8 +28,6 @@ func solution(text string) (string, string, string) {
 		default:
 			panic("Строки между собой можно только складывать и вычитать, не знаю что с этим делать...")
 		}
-
-		//Если первым введена не строка то ошибка
 	} else {
 		if sign == "*" {
 			secondArg, _ := strconv.Atoi(second)
@@ -40,6 +36,7 @@ func solution(text string) (string, string, string) {
 			}
 		} else if sign == "/" {
 			secnd, _ := strconv.Atoi(second)
+			first = strings.ReplaceAll(first, "\"", "")
 			fl := len(first)
 			result := fl / secnd
 			println(first[0:result])
