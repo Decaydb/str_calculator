@@ -23,6 +23,9 @@ func solution(text string) (string, string, string) {
 		case sign == "-":
 			resultf := strings.ReplaceAll(first, "\"", "")
 			results := strings.ReplaceAll(second, "\"", "")
+			if (len(resultf) > 10) || (len(results) > 10) == true {
+				println("Нельзя вводить строки длиннее 10 символов!")
+			}
 			result := strings.ReplaceAll(resultf, results, "")
 			println(result)
 		default:
@@ -31,11 +34,25 @@ func solution(text string) (string, string, string) {
 	} else {
 		if sign == "*" {
 			secondArg, _ := strconv.Atoi(second)
+			if secondArg > 10 {
+				panic("Нельзя вводить числа больше 10")
+			}
+			firstArg := strings.ReplaceAll(first, "\"", "")
+			var printString string
 			for i := 0; i < secondArg; i++ {
-				print(first)
+				//print(first)
+				printString += firstArg
+			}
+			if len(printString) > 40 {
+				println(printString[0:40], "...")
+			} else {
+				println(printString)
 			}
 		} else if sign == "/" {
 			secnd, _ := strconv.Atoi(second)
+			if secnd > 10 {
+				panic("Нельзя вводить числа больше 10")
+			}
 			first = strings.ReplaceAll(first, "\"", "")
 			fl := len(first)
 			result := fl / secnd
@@ -51,7 +68,7 @@ func edit(text string) (string, string, string) {
 	var first, sign, second string
 	var slice []string
 	text = strings.TrimSpace(text)
-	text = strings.ReplaceAll(text, "\r", "")
+	//text = strings.ReplaceAll(text, "\r", "")
 	text = strings.ReplaceAll(text, "\n", "")
 	if strings.Contains(text, " + ") {
 		slice = strings.Split(text, " + ")
@@ -94,3 +111,4 @@ func main() {
 	}
 
 }
+
